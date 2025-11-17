@@ -9,6 +9,9 @@
     "f_cpu": "64000000L",
     "mcu": "nrf52840",
     "variant": "pca10059",
+    "bsp": {
+      "name": "adafruit"
+    },
     "softdevice": {
       "sd_flags": "-DS140",
       "sd_name": "s140",
