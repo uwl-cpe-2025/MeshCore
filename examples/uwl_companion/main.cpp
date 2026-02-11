@@ -14,7 +14,7 @@ static uint32_t _atoi(const char* sp) {
 
 #undef EXTRAFS
 #if defined(NRF52_PLATFORM) || defined(STM32_PLATFORM)
-  #include <InternalFileSystem.h>
+  //#include <InternalFileSystem.h>
   #if defined(QSPIFLASH)
     #include <CustomLFS_QSPIFlash.h>
     DataStore store(InternalFS, QSPIFlash, rtc_clock);
@@ -24,7 +24,8 @@ static uint32_t _atoi(const char* sp) {
     CustomLFS ExtraFS(0xD4000, 0x19000, 128);
     DataStore store(InternalFS, ExtraFS, rtc_clock);
   #else
-    DataStore store(InternalFS, rtc_clock);
+    #include <CustomLFS_QSPIFlash.h>
+    DataStore store(QSPIFlash, rtc_clock);
   #endif
   #endif
 #elif defined(RP2040_PLATFORM)
@@ -107,6 +108,7 @@ void halt() {
 }
 
 void setup() {
+  pinMode(LED_BLUE, OUTPUT);
   Serial.begin(115200);
 
   board.begin();
@@ -124,13 +126,14 @@ void setup() {
   }
 #endif
 
-  if (!radio_init()) { halt(); }
+  // if (!radio_init()) { halt(); }
 
   fast_rng.begin(radio_get_rng_seed());
 
 #if defined(NRF52_PLATFORM) || defined(STM32_PLATFORM)
-  InternalFS.begin();
-  #if defined(QSPIFLASH)
+  // I removed the call to InternalFS.begin and made the call to
+  // QSPIFlash.begin() unconditional on the QSPIFLASH define.
+  #if true || defined(QSPIFLASH)
     if (!QSPIFlash.begin()) {
       // debug output might not be available at this point, might be too early. maybe should fall back to InternalFS here?
       MESH_DEBUG_PRINTLN("CustomLFS_QSPIFlash: failed to initialize");
@@ -216,6 +219,7 @@ void setup() {
 #endif
 
   sensors.begin();
+  digitalWrite(LED_BLUE, LOW);
 
 #ifdef DISPLAY_CLASS
   ui_task.begin(disp, &sensors, the_mesh.getNodePrefs());  // still want to pass this in as dependency, as prefs might be moved

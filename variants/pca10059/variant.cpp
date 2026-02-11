@@ -23,7 +23,7 @@
 #include <Arduino.h>
 
 // Pins 19, 21, 23, and 25 are connected to SW2 and should not be used.
-// See the datasheet. Many other pins are not exposed to on the dongle.
+// See the datasheet. Many other pins are not exposed on the dongle.
 const uint32_t g_ADigitalPinMap[] =
 {
   // P0

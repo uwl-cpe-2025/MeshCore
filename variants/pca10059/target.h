@@ -10,7 +10,7 @@
 #include <helpers/sensors/EnvironmentSensorManager.h>
 #include <helpers/sensors/LocationProvider.h>
 #ifdef DISPLAY_CLASS
-  #include <helpers/ui/GxEPDDisplay.h>
+  #include <helpers/ui/SSD1306Display.h>
   #include <helpers/ui/MomentaryButton.h>
 #endif
 

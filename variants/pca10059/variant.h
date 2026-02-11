@@ -154,15 +154,12 @@ static const uint8_t SCK  = PIN_SPI_SCK ;
 #define PIN_WIRE_SDA         (22)
 #define PIN_WIRE_SCL         (24)
 
-// QSPI Pins
-/*
-#define PIN_QSPI_SCK         19
-#define PIN_QSPI_CS          17
-#define PIN_QSPI_IO0         20
-#define PIN_QSPI_IO1         21
+#define PIN_QSPI_SCK         17
+#define PIN_QSPI_CS          32
+#define PIN_QSPI_IO0         15
+#define PIN_QSPI_IO1         24
 #define PIN_QSPI_IO2         22
-#define PIN_QSPI_IO3         23
-*/
+#define PIN_QSPI_IO3         20
 
 // On-board QSPI Flash
 /*

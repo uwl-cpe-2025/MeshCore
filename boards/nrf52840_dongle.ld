@@ -7,7 +7,7 @@ MEMORY
 {
   /* Leave space for an InternalFilesystem at 0x80000 - 0x87000
    */
-  FLASH (rx)     : ORIGIN = 0x27000, LENGTH = 0x75000 - 0x27000
+  FLASH (rx)     : ORIGIN = 0x27000, LENGTH = 0x87000 - 0x27000
 
   /* SRAM required by Softdevice depend on
    * - Attribute Table Size (Number of Services and Characteristics)
