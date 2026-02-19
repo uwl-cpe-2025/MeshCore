@@ -108,7 +108,6 @@ void halt() {
 }
 
 void setup() {
-  pinMode(LED_BLUE, OUTPUT);
   Serial.begin(115200);
 
   board.begin();
@@ -126,7 +125,7 @@ void setup() {
   }
 #endif
 
-  // if (!radio_init()) { halt(); }
+  if (!radio_init()) { halt(); }
 
   fast_rng.begin(radio_get_rng_seed());
 

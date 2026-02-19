@@ -136,11 +136,11 @@ static const uint8_t A3  = PIN_A3 ;
 // TODO tentative
 #define SPI_INTERFACES_COUNT 1
 
-#define PIN_SPI_MISO         (15)
-#define PIN_SPI_MOSI         (17)
-#define PIN_SPI_SCK          (20)
+#define PIN_SPI_MISO         (47)
+#define PIN_SPI_MOSI         (2)
+#define PIN_SPI_SCK          (29)
 
-static const uint8_t SS   = 44 ;
+static const uint8_t SS   = 0xff;
 static const uint8_t MOSI = PIN_SPI_MOSI ;
 static const uint8_t MISO = PIN_SPI_MISO ;
 static const uint8_t SCK  = PIN_SPI_SCK ;
@@ -151,8 +151,8 @@ static const uint8_t SCK  = PIN_SPI_SCK ;
 // TODO tentative
 #define WIRE_INTERFACES_COUNT 1
 
-#define PIN_WIRE_SDA         (22)
-#define PIN_WIRE_SCL         (24)
+#define PIN_WIRE_SDA         (11)
+#define PIN_WIRE_SCL         (14)
 
 #define PIN_QSPI_SCK         17
 #define PIN_QSPI_CS          32
