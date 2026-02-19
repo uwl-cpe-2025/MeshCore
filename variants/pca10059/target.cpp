@@ -26,7 +26,7 @@ EnvironmentSensorManager sensors = EnvironmentSensorManager();
 #endif
 
 bool radio_init() {
-  rtc_clock.begin(Wire);
+  //rtc_clock.begin(Wire);
   
   return radio.std_init(&SPI);
 }
