@@ -165,7 +165,7 @@ private:
   void writeDisabledFrame();
   void writeContactRespFrame(uint8_t code, const ContactInfo &contact);
   void updateContactFromFrame(ContactInfo &contact, uint32_t& last_mod, const uint8_t *frame, int len);
-  void addToOfflineQueue(const uint8_t frame[], int len);
+  void addToOfflineQueue(const uint8_t frame[], int len, uint8_t priority);
   int getFromOfflineQueue(uint8_t frame[]);
   int getBlobByKey(const uint8_t key[], int key_len, uint8_t dest_buf[]) override { 
     return _store->getBlobByKey(key, key_len, dest_buf);
@@ -211,6 +211,7 @@ private:
   struct Frame {
     uint8_t len;
     uint8_t buf[MAX_FRAME_SIZE];
+    uint8_t priority;
 
     bool isChannelMsg() const;
   };

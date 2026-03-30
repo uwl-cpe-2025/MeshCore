@@ -204,26 +204,36 @@ bool MyMesh::Frame::isChannelMsg() const {
   return buf[0] == RESP_CODE_CHANNEL_MSG_RECV || buf[0] == RESP_CODE_CHANNEL_MSG_RECV_V3;
 }
 
-void MyMesh::addToOfflineQueue(const uint8_t frame[], int len) {
+void MyMesh::addToOfflineQueue(const uint8_t frame[], int len, uint8_t priority) {
   if (offline_queue_len >= OFFLINE_QUEUE_SIZE) {
     MESH_DEBUG_PRINTLN("WARN: offline_queue is full!");
     int pos = 0;
     while (pos < offline_queue_len) {
       if (offline_queue[pos].isChannelMsg()) {
-        for (int i = pos; i < offline_queue_len - 1; i++) { // delete oldest channel msg from queue
-          offline_queue[i] = offline_queue[i + 1];
+        // Insert new message in priority order
+        int insert_pos = offline_queue_len - 1;
+        while (insert_pos > 0 && offline_queue[insert_pos - 1].priority < priority) {
+          offline_queue[insert_pos] = offline_queue[insert_pos - 1];
+          insert_pos--;
         }
-        MESH_DEBUG_PRINTLN("INFO: removed oldest channel message from queue.");
-        offline_queue[offline_queue_len - 1].len = len;
-        memcpy(offline_queue[offline_queue_len - 1].buf, frame, len);
+        offline_queue[insert_pos].len = len;
+        offline_queue[insert_pos].priority = priority;
+        memcpy(offline_queue[insert_pos].buf, frame, len);
         return;
       }
       pos++;
     }
     MESH_DEBUG_PRINTLN("INFO: no channel messages to remove from queue.");
   } else {
-    offline_queue[offline_queue_len].len = len;
-    memcpy(offline_queue[offline_queue_len].buf, frame, len);
+    // Insert new message in priority order (highest priority first)
+    int insert_pos = offline_queue_len;
+    while (insert_pos > 0 && offline_queue[insert_pos - 1].priority < priority) {
+      offline_queue[insert_pos] = offline_queue[insert_pos - 1];
+      insert_pos--;
+    }
+    offline_queue[insert_pos].len = len;
+    offline_queue[insert_pos].priority = priority;
+    memcpy(offline_queue[insert_pos].buf, frame, len);
     offline_queue_len++;
   }
 }
@@ -404,6 +414,13 @@ ContactInfo*  MyMesh::processAck(const uint8_t *data) {
 
 void MyMesh::queueMessage(const ContactInfo &from, uint8_t txt_type, mesh::Packet *pkt,
                           uint32_t sender_timestamp, const uint8_t *extra, int extra_len, const char *text) {
+  uint8_t priority = 1;
+  if(strstr(text, "P2") != NULL){
+    priority = 2;
+  } else if(strstr(text, "SOS") != NULL){
+    priority = 3;
+  }
+  
   int i = 0;
   if (app_target_ver >= 3) {
     out_frame[i++] = RESP_CODE_CONTACT_MSG_RECV_V3;
@@ -429,8 +446,8 @@ void MyMesh::queueMessage(const ContactInfo &from, uint8_t txt_type, mesh::Packe
   }
   memcpy(&out_frame[i], text, tlen);
   i += tlen;
-  addToOfflineQueue(out_frame, i);
-
+  addToOfflineQueue(out_frame, i, priority);
+  
   if (_serial->isConnected()) {
     uint8_t frame[1];
     frame[0] = PUSH_CODE_MSG_WAITING; // send push 'tickle'
@@ -500,6 +517,13 @@ void MyMesh::onSignedMessageRecv(const ContactInfo &from, mesh::Packet *pkt, uin
 
 void MyMesh::onChannelMessageRecv(const mesh::GroupChannel &channel, mesh::Packet *pkt, uint32_t timestamp,
                                   const char *text) {
+  uint8_t priority = 1;
+  if(strstr(text, "P2") != NULL){
+    priority = 2;
+  } else if(strstr(text, "SOS") != NULL){
+    priority = 3;
+  }
+
   int i = 0;
   if (app_target_ver >= 3) {
     out_frame[i++] = RESP_CODE_CHANNEL_MSG_RECV_V3;
@@ -523,7 +547,7 @@ void MyMesh::onChannelMessageRecv(const mesh::GroupChannel &channel, mesh::Packe
   }
   memcpy(&out_frame[i], text, tlen);
   i += tlen;
-  addToOfflineQueue(out_frame, i);
+  addToOfflineQueue(out_frame, i, priority);
 
   if (_serial->isConnected()) {
     uint8_t frame[1];
