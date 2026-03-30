@@ -166,24 +166,13 @@ protected:
 public:
   void savePrefs() { _store->savePrefs(_prefs, sensors.node_lat, sensors.node_lon); }
 
-#if ENV_INCLUDE_GPS == 1
-  void applyGpsPrefs() {
-    sensors.setSettingValue("gps", _prefs.gps_enabled ? "1" : "0");
-    if (_prefs.gps_interval > 0) {
-      char interval_str[12];  // Max: 24 hours = 86400 seconds (5 digits + null)
-      sprintf(interval_str, "%u", _prefs.gps_interval);
-      sensors.setSettingValue("gps_interval", interval_str);
-    }
-  }
-#endif
-
 private:
   void writeOKFrame();
   void writeErrFrame(uint8_t err_code);
   void writeDisabledFrame();
   void writeContactRespFrame(uint8_t code, const ContactInfo &contact);
   void updateContactFromFrame(ContactInfo &contact, uint32_t& last_mod, const uint8_t *frame, int len);
-  void addToOfflineQueue(const uint8_t frame[], int len);
+  void addToOfflineQueue(const uint8_t frame[], int len, uint8_t priority);
   int getFromOfflineQueue(uint8_t frame[]);
   int getBlobByKey(const uint8_t key[], int key_len, uint8_t dest_buf[]) override { 
     return _store->getBlobByKey(key, key_len, dest_buf);
@@ -231,6 +220,7 @@ private:
   struct Frame {
     uint8_t len;
     uint8_t buf[MAX_FRAME_SIZE];
+    uint8_t priority;
 
     bool isChannelMsg() const;
   };
