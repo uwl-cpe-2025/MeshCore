@@ -112,6 +112,9 @@ void setup() {
 
   board.begin();
 
+  pinMode(LED_GREEN, OUTPUT);
+
+
 #ifdef DISPLAY_CLASS
   DisplayDriver* disp = NULL;
   if (display.begin()) {
@@ -125,9 +128,10 @@ void setup() {
   }
 #endif
 
-  if (!radio_init()) { halt(); }
-
+  if (!radio_init()) { digitalWrite(LED_RED, LOW); halt(); }
   fast_rng.begin(radio_get_rng_seed());
+
+  digitalWrite(LED_GREEN, LOW);
 
 #if defined(NRF52_PLATFORM) || defined(STM32_PLATFORM)
   // I removed the call to InternalFS.begin and made the call to
@@ -218,7 +222,6 @@ void setup() {
 #endif
 
   sensors.begin();
-  digitalWrite(LED_BLUE, LOW);
 
 #ifdef DISPLAY_CLASS
   ui_task.begin(disp, &sensors, the_mesh.getNodePrefs());  // still want to pass this in as dependency, as prefs might be moved

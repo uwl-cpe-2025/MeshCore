@@ -123,12 +123,12 @@ static const uint8_t A3  = PIN_A3 ;
 
 /*
  * Serial interfaces
+ *
  */
 
 // Arduino Header D0, D1
-// TODO tentative
-#define PIN_SERIAL1_RX      (9)
-#define PIN_SERIAL1_TX      (10)
+#define PIN_SERIAL1_RX      (0xff)
+#define PIN_SERIAL1_TX      (0xff)
 
 /*
  * SPI Interfaces
@@ -136,9 +136,9 @@ static const uint8_t A3  = PIN_A3 ;
 // TODO tentative
 #define SPI_INTERFACES_COUNT 1
 
-#define PIN_SPI_MISO         (47)
-#define PIN_SPI_MOSI         (2)
-#define PIN_SPI_SCK          (29)
+#define PIN_SPI_MISO         (0xff)
+#define PIN_SPI_MOSI         (0xff)
+#define PIN_SPI_SCK          (0xff)
 
 static const uint8_t SS   = 0xff;
 static const uint8_t MOSI = PIN_SPI_MOSI ;
@@ -151,15 +151,15 @@ static const uint8_t SCK  = PIN_SPI_SCK ;
 // TODO tentative
 #define WIRE_INTERFACES_COUNT 1
 
-#define PIN_WIRE_SDA         (11)
-#define PIN_WIRE_SCL         (14)
+#define PIN_WIRE_SDA         (45)
+#define PIN_WIRE_SCL         (47)
 
-#define PIN_QSPI_SCK         17
-#define PIN_QSPI_CS          32
-#define PIN_QSPI_IO0         15
-#define PIN_QSPI_IO1         24
-#define PIN_QSPI_IO2         22
-#define PIN_QSPI_IO3         20
+#define PIN_QSPI_SCK         31
+#define PIN_QSPI_CS          11
+#define PIN_QSPI_IO0         29
+#define PIN_QSPI_IO1         14
+#define PIN_QSPI_IO2         04
+#define PIN_QSPI_IO3         26
 
 // On-board QSPI Flash
 /*
