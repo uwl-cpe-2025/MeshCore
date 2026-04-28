@@ -4,7 +4,7 @@
 
 // Believe it or not, this std C function is busted on some platforms!
 static uint32_t _atoi(const char* sp) {
-  uint32_t n = 0;
+  uint32_t n{0};
   while (*sp && *sp >= '0' && *sp <= '9') {
     n *= 10;
     n += (*sp++ - '0');
@@ -14,7 +14,7 @@ static uint32_t _atoi(const char* sp) {
 
 #undef EXTRAFS
 #if defined(NRF52_PLATFORM) || defined(STM32_PLATFORM)
-  //#include <InternalFileSystem.h>
+  #include <InternalFileSystem.h>
   #if defined(QSPIFLASH)
     #include <CustomLFS_QSPIFlash.h>
     DataStore store(InternalFS, QSPIFlash, rtc_clock);
@@ -24,8 +24,7 @@ static uint32_t _atoi(const char* sp) {
     CustomLFS ExtraFS(0xD4000, 0x19000, 128);
     DataStore store(InternalFS, ExtraFS, rtc_clock);
   #else
-    #include <CustomLFS_QSPIFlash.h>
-    DataStore store(QSPIFlash, rtc_clock);
+    DataStore store(InternalFS, rtc_clock);
   #endif
   #endif
 #elif defined(RP2040_PLATFORM)
@@ -108,12 +107,28 @@ void halt() {
 }
 
 void setup() {
+  /*
+  pinMode(LED_GREEN, OUTPUT);
+
+  pinMode(47, OUTPUT);
+  digitalWrite(47, LOW);
+
+  int constexpr pins[]{39, 42, 45, 2};
+  for (int const pin : pins) {
+    pinMode(pin, OUTPUT);
+    digitalWrite(pin, HIGH);
+    delay(2000);
+    digitalWrite(LED_GREEN, LOW);
+    delay(500);
+    digitalWrite(LED_GREEN, HIGH);
+    digitalWrite(pin, LOW);
+  }
+
+  halt();
+  */
   Serial.begin(115200);
 
   board.begin();
-
-  pinMode(LED_GREEN, OUTPUT);
-
 
 #ifdef DISPLAY_CLASS
   DisplayDriver* disp = NULL;
@@ -128,10 +143,8 @@ void setup() {
   }
 #endif
 
-  if (!radio_init()) { digitalWrite(LED_RED, LOW); halt(); }
+  if (!radio_init()) { halt(); }
   fast_rng.begin(radio_get_rng_seed());
-
-  digitalWrite(LED_GREEN, LOW);
 
 #if defined(NRF52_PLATFORM) || defined(STM32_PLATFORM)
   // I removed the call to InternalFS.begin and made the call to
@@ -201,6 +214,7 @@ void setup() {
         false
     #endif
   );
+
 
 #ifdef WIFI_SSID
   WiFi.begin(WIFI_SSID, WIFI_PWD);

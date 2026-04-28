@@ -4,7 +4,6 @@
 #undef EXTRAFS
 
 #if defined(EXTRAFS) || defined(QSPIFLASH)
-  #error "yay"
   #define MAX_BLOBRECS 100
 #else
   #define MAX_BLOBRECS 20

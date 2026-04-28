@@ -5,9 +5,18 @@ GROUP(-lgcc -lc -lnosys)
 
 MEMORY
 {
-  /* Leave space for an InternalFilesystem at 0x80000 - 0x87000
+  /* We leave  a 0x1000 kb margin between bootloader and usable flash
+   * for safety.
+   *
+   * We also leave a 0x2000 kb margin between code and internal filesystem
+   * for safety.
    */
-  FLASH (rx)     : ORIGIN = 0x27000, LENGTH = 0x87000 - 0x27000
+
+  /* Leave space for an InternalFilesystem at 0xD2000 - 0xD9000
+   */
+  FLASH (rx)     : ORIGIN = 0x27000, LENGTH = 0xD0000 - 0x27000
+  BOOTLOADER (rx) : ORIGIN = 0xE0000, LENGTH = 0x2000
+  INTERNAL_FS     : ORIGIN = 0xD2000, LENGTH = 0x7000
 
   /* SRAM required by Softdevice depend on
    * - Attribute Table Size (Number of Services and Characteristics)
