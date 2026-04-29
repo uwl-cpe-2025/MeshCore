@@ -22,6 +22,8 @@
 
 #include <Arduino.h>
 
+// Pins 27 and 28 are temporarily enabled to use for dummy I2C.
+
 // Pins 19, 21, 23, and 25 are connected to SW2 and should not be used.
 // See the datasheet. Many other pins are not exposed on the dongle.
 const uint32_t g_ADigitalPinMap[] =
@@ -30,7 +32,7 @@ const uint32_t g_ADigitalPinMap[] =
   0   , 1   , 2 , 0xff, 4   , 0xff, 6   , 0xff,
   8   , 9   , 10, 11  , 12  , 13  , 14  , 15  ,
   0xff, 17  , 18, 0xff, 20  , 0xff, 22  , 0xff,
-  24  , 0xff, 26, 0xff, 0xff, 29  , 0xff, 31  ,
+  24  , 0xff, 26, 27, 28, 29  , 0xff, 31  ,
 
   // P1
   32  , 33, 34, 0xff, 36,   0xff,   38, 39,
@@ -49,4 +51,8 @@ void initVariant() {
   digitalWrite(LED_BLUE, HIGH);
   digitalWrite(LED_GREEN, HIGH);
   digitalWrite(LED_RED, HIGH);
+
+  pinMode(34, INPUT_PULLUP);
+  pinMode(36, INPUT_PULLUP);
+  pinMode(39, INPUT_PULLUP);
 }

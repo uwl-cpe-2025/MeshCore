@@ -151,8 +151,9 @@ static const uint8_t SCK  = PIN_SPI_SCK ;
 // TODO tentative
 #define WIRE_INTERFACES_COUNT 1
 
-#define PIN_WIRE_SDA         (45)
-#define PIN_WIRE_SCL         (47)
+// dummy pins - not exposed
+#define PIN_WIRE_SDA         (27)
+#define PIN_WIRE_SCL         (28)
 
 #define PIN_QSPI_SCK         31
 #define PIN_QSPI_CS          11

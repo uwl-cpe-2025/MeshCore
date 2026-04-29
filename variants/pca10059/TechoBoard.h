@@ -46,6 +46,7 @@ public:
     #ifdef PIN_PWR_EN
     digitalWrite(PIN_PWR_EN, LOW);
     #endif
+    delay(2000);
     sd_power_system_off();
   }
 
