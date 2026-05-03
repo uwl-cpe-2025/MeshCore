@@ -30,8 +30,9 @@ bool ST7789LCDDisplay::begin() {
     if (PIN_TFT_RST != -1) {
       pinMode(PIN_TFT_RST, OUTPUT);
       digitalWrite(PIN_TFT_RST, LOW); 
-      delay(10);
+      delay(100);
       digitalWrite(PIN_TFT_RST, HIGH);
+      delay(200);
     }
 
     // Im not sure if this is just a t-deck problem or not, if your display is slow try this.
@@ -42,9 +43,10 @@ bool ST7789LCDDisplay::begin() {
     display.init(DISPLAY_WIDTH, DISPLAY_HEIGHT);
     display.setRotation(DISPLAY_ROTATION);
 
-    display.setSPISpeed(40e6);
+    display.setSPISpeed(8000000);
 
-    display.fillScreen(ST77XX_BLACK);
+    display.fillScreen(ST77XX_BLUE);
+
     display.setTextColor(ST77XX_WHITE);
     display.setTextSize(2 * DISPLAY_SCALE_X); 
     display.cp437(true); // Use full 256 char 'Code Page 437' font

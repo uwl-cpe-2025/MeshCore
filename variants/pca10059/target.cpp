@@ -5,7 +5,7 @@
 
 TechoBoard board;
 
-RADIO_CLASS radio = new Module(P_LORA_NSS, P_LORA_DIO_1, P_LORA_RESET, P_LORA_BUSY, SPI);
+RADIO_CLASS radio = new Module(P_LORA_NSS, P_LORA_DIO_1, P_LORA_RESET, P_LORA_BUSY, SPI1);
 
 WRAPPER_CLASS radio_driver(radio, board);
 
@@ -28,7 +28,7 @@ EnvironmentSensorManager sensors = EnvironmentSensorManager();
 bool radio_init() {
   //rtc_clock.begin(Wire);
   
-  return radio.std_init(&SPI);
+  return radio.std_init(&SPI1);
 }
 
 uint32_t radio_get_rng_seed() {

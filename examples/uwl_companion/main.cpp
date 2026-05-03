@@ -107,25 +107,6 @@ void halt() {
 }
 
 void setup() {
-  /*
-  pinMode(LED_GREEN, OUTPUT);
-
-  pinMode(47, OUTPUT);
-  digitalWrite(47, LOW);
-
-  int constexpr pins[]{39, 42, 45, 2};
-  for (int const pin : pins) {
-    pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
-    delay(2000);
-    digitalWrite(LED_GREEN, LOW);
-    delay(500);
-    digitalWrite(LED_GREEN, HIGH);
-    digitalWrite(pin, LOW);
-  }
-
-  halt();
-  */
   Serial.begin(115200);
 
   board.begin();

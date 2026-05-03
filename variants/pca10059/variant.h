@@ -134,11 +134,15 @@ static const uint8_t A3  = PIN_A3 ;
  * SPI Interfaces
  */
 // TODO tentative
-#define SPI_INTERFACES_COUNT 1
+#define SPI_INTERFACES_COUNT 2
 
-#define PIN_SPI_MISO         (0xff)
-#define PIN_SPI_MOSI         (0xff)
-#define PIN_SPI_SCK          (0xff)
+#define PIN_SPI_MISO         (45)
+#define PIN_SPI_MOSI         (34)
+#define PIN_SPI_SCK          (47)
+
+#define PIN_SPI1_MISO         (15)
+#define PIN_SPI1_MOSI         (17)
+#define PIN_SPI1_SCK          (20)
 
 static const uint8_t SS   = 0xff;
 static const uint8_t MOSI = PIN_SPI_MOSI ;
