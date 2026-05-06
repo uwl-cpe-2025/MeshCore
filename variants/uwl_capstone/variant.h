@@ -103,7 +103,7 @@ static const uint8_t A3  = PIN_A3 ;
 
 #define PIN_SPI_MISO         (33u)
 #define PIN_SPI_MOSI         (34u)
-#define PIN_SPI_SCK          (2u)
+#define PIN_SPI_SCK          (42u)
 
 #define PIN_SPI1_MISO         (15u)
 #define PIN_SPI1_MOSI         (17u)
